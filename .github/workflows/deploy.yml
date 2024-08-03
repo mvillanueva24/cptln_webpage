@@ -1,35 +1,40 @@
-name: Deploy to Hostinger
+name: Deploy React App to Hostinger
 
 on:
   push:
     branches:
-      - main  # Ajusta según la rama que desees desplegar
+      
+main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    
+    name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+        
+    name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-    - name: Install dependencies
-      run: npm install
+        
+    name: Install dependencies
+        run: npm install
 
-    - name: Build project
-      run: npm run build
+        
+    name: Build the React app
+        run: npm run build
 
-    - name: Deploy to Hostinger via SSH
-      uses: appleboy/ssh-action@v0.1.1
-      with:
-        host: ${{ secrets.HOSTINGER_SSH_SERVER }}
-        username: ${{ secrets.HOSTINGER_SSH_USERNAME }}
-        password: ${{ secrets.HOSTINGER_SSH_PASSWORD }}
-        script: |
-          rm -rf public_html/*
-          cp -r dist/* public_html/
+        
+    name: Deploy to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: cptln_frontend/dist
+          server-dir: public_html
