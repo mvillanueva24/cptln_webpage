@@ -12,25 +12,25 @@ jobs:
 
     steps:
     
-    name: Checkout code
+    -name: Checkout code
         uses: actions/checkout@v2
 
         
-    name: Set up Node.js
+    -name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
         
-    name: Install dependencies
+    -name: Install dependencies
         run: npm install
 
         
-    name: Build the React app
+    -name: Build the React app
         run: npm run build
 
         
-    name: Deploy to Hostinger via FTP
+    -name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
           server: ${{ secrets.FTP_SERVER }}
